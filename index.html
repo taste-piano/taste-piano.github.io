@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="stylesheet" href="./static/css/taste.css">
+  <link rel="stylesheet" href="./static/css/taste.css?v=2">
 </head>
 <body>
 
@@ -61,20 +61,20 @@
       <div class="tag-row" id="tags"></div>
     </div>
 
-    <div class="player-grid" id="main-players"></div>
-    <p class="player-caption">AR writes its own section plan; DiT is given the plan shown on its roll.</p>
+    <div class="player-stack" id="main-players"></div>
 
-    <button type="button" class="button is-small is-rounded baseline-toggle" id="baseline-toggle"
-            aria-expanded="false" aria-controls="baseline-panel">
+    <button type="button" class="button is-small is-rounded compare-toggle" id="compare-toggle"
+            aria-expanded="false" aria-controls="compare-panel">
       <span class="toggle-arrow" aria-hidden="true">&#9656;</span>
-      <span>Compare with caption-conditioned baselines</span>
+      <span>Compare with other systems</span>
     </button>
-    <div class="baseline-panel" id="baseline-panel" hidden>
-      <p class="baseline-note">Baselines receive the same tags and imagery description as a text caption.</p>
-      <div class="player-grid" id="baseline-players"></div>
+    <div class="compare-panel" id="compare-panel" hidden>
+      <div class="player-stack" id="dit-player"></div>
+      <p class="compare-note">Caption-conditioned baselines receive the same tags and imagery description as a text caption.</p>
+      <div class="player-stack" id="baseline-players"></div>
     </div>
 
-    <p class="samples-note">Samples: one of eight generations per prompt and system.</p>
+    <p class="samples-note">For each prompt and system, one of eight generations was selected by listening.</p>
   </div>
 </section>
 
@@ -95,14 +95,36 @@ Text-conditioned symbolic music generation lets users steer editable music with 
 </section>
 
 
-<section class="section" id="taxonomy">
+<section class="section" id="overview">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Taxonomy</h2>
-    <figure class="taxonomy-figure">
-      <img src="static/images/taxonomy.png" width="2400" height="1339"
-           alt="The taxonomy: sources of musical intention, the representations used as controls (tags, section plan, imagery description), and the evaluation target for each.">
-      <figcaption>The taxonomy separates finite-vocabulary tags, a timestamped section plan, and a free-form imagery description, each paired with its own evaluation target.</figcaption>
-    </figure>
+    <h2 class="title is-3 has-text-centered">Overview</h2>
+    <div class="overview-block">
+      <h3 class="title is-4">Taxonomy</h3>
+      <figure class="overview-figure">
+        <a href="static/images/taxonomy.png" target="_blank" rel="noopener" title="Open full size">
+          <img src="static/images/taxonomy.png" width="2400" height="1339" loading="lazy" alt="Taxonomy: sources of musical intention, the representations used as controls (tags, section plan, imagery description), and the evaluation target for each.">
+        </a>
+      </figure>
+      <p>TASTE splits a description into three parts that play different roles: six finite-vocabulary tags (key, tempo, emotion, genre, accompaniment, and performance style), a section plan that fixes the piece's form over time, and a free-form imagery description of the scene or atmosphere the music evokes. Each part is annotated, learned, and evaluated on its own terms.</p>
+    </div>
+    <div class="overview-block">
+      <h3 class="title is-4">Data pipeline</h3>
+      <figure class="overview-figure">
+        <a href="static/images/data_pipeline.png" target="_blank" rel="noopener" title="Open full size">
+          <img src="static/images/data_pipeline.png" width="2400" height="1898" loading="lazy" alt="Multi-tier annotation pipeline: reference annotations on paired and curated pieces, then field-specific methods for tags, section plans, and imagery descriptions extend them to weakly labeled public MIDI.">
+        </a>
+      </figure>
+      <p>A multi-tier pipeline draws each condition from the evidence best suited to it. About 10K directly paired pieces and 51K curated public performances, annotated from compositional context or rendered audio, anchor the labels; confidence-gated tag probes and retrieved imagery descriptions then extend them to 371K weakly labeled MIDI files. Section plans come from structure analysis at every tier.</p>
+    </div>
+    <div class="overview-block">
+      <h3 class="title is-4">Models</h3>
+      <figure class="overview-figure">
+        <a href="static/images/model_architecture.png" target="_blank" rel="noopener" title="Open full size">
+          <img src="static/images/model_architecture.png" width="2800" height="1344" loading="lazy" alt="Model architectures: an autoregressive event decoder and a latent diffusion transformer, each conditioned on tags through adaptive layer normalization and on the imagery description through cross-attention.">
+        </a>
+      </figure>
+      <p>The same staged recipe, moving from MIDI pretraining through the weakly labeled, curated, and directly paired tiers, trains two generators: an autoregressive decoder that writes its own section plan before the notes, and a latent diffusion transformer that generates a whole piece under a given plan. Tags enter through adaptive layer normalization and the imagery description through cross-attention over a frozen text encoder.</p>
+    </div>
   </div>
 </section>
 
@@ -124,6 +146,6 @@ Text-conditioned symbolic music generation lets users steer editable music with 
 </footer>
 
 <script src="data.js?v=1"></script>
-<script src="static/js/taste.js?v=1"></script>
+<script src="static/js/taste.js?v=2"></script>
 </body>
 </html>

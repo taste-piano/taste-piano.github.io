@@ -10,10 +10,11 @@ const SECTION_COLORS = {
   E: "#b3453f", F: "#8a5aa8", G: "#3f7f96", H: "#7d7a34",
 };
 const SYSTEMS = [
-  {key: "ar", name: "TASTE (AR)", banded: true, main: true},
-  {key: "dit", name: "TASTE (DiT)", banded: true, main: true},
-  {key: "text2midi", name: "text2midi", banded: false, main: false},
-  {key: "midi_llm", name: "MIDI-LLM", banded: false, main: false},
+  {key: "ar", name: "TASTE (AR)", banded: true, compare: false, container: "main-players"},
+  {key: "dit", name: "TASTE (DiT)", banded: true, compare: true, container: "dit-player",
+   note: "Latent diffusion variant; follows the given section plan"},
+  {key: "text2midi", name: "text2midi", banded: false, compare: true, container: "baseline-players"},
+  {key: "midi_llm", name: "MIDI-LLM", banded: false, compare: true, container: "baseline-players"},
 ];
 const TAGS = [
   ["Key", "key"], ["Tempo", "tempo"], ["Emotion", "emotion"],
@@ -21,7 +22,7 @@ const TAGS = [
 ];
 
 const BAND_H = 16;
-const ROLL_H = 150;
+const ROLL_H = 170;
 const PEDAL_H = 10;
 const AXIS_H = 16;
 const PEDAL_INK = "#c2601f";
@@ -32,7 +33,7 @@ const pieceCache = new Map();
 const players = [];
 let promptIndex = 0;
 let lastUsed = null;
-let baselinesOpen = false;
+let compareOpen = false;
 
 function formatTime(seconds) {
   const value = Math.max(0, Math.floor(seconds));
@@ -67,7 +68,7 @@ function velocityColor(velocity) {
 function draw(player) {
   const {piece, canvas, cursor, system} = player;
   const width = Math.floor(player.stack.clientWidth);
-  if (width === 0) return;  // hidden (collapsed baseline panel); redrawn on open
+  if (width === 0) return;  // hidden (collapsed compare panel); redrawn on open
   const bandH = system.banded ? BAND_H : 0;
   const rollTop = bandH;
   const pedalTop = rollTop + ROLL_H + 2;
@@ -221,18 +222,22 @@ function buildPlayer(system, container) {
     + '<svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z"/></svg>';
   const name = el("span", "player-name", system.name);
   const time = el("span", "player-time", "0:00 / 0:00");
-  head.append(button, name, time);
+  const midi = el("a", "midi-link", "MIDI");
+  midi.title = `Download the ${system.name} MIDI file`;
+  head.append(button, name, time, midi);
 
   const stack = el("div", "roll-stack");
   const canvas = el("canvas");
   const cursor = el("canvas", "cursor");
   stack.append(canvas, cursor);
-  card.append(head, stack);
+  card.append(head);
+  if (system.note) card.append(el("p", "player-note", system.note));
+  card.append(stack);
   container.append(card);
 
   const audio = new Audio();
   audio.preload = "metadata";
-  const player = {system, card, button, time, stack, canvas, cursor, audio,
+  const player = {system, card, button, time, midi, stack, canvas, cursor, audio,
                   entry: null, piece: null, layout: null, frame: null};
   players.push(player);
 
@@ -314,9 +319,11 @@ function selectPrompt(index) {
   for (const player of players) {
     player.entry = prompt.players[player.system.key];
     player.audio.src = player.entry.audio;
+    player.midi.href = player.entry.midi;
+    player.midi.download = `${prompt.id}_${player.system.key}.mid`;
     // a src change drops the queued "pause" event, so reset the UI directly
     player.onStop();
-    if (player.system.main || baselinesOpen) loadPlayer(player);
+    if (!player.system.compare || compareOpen) loadPlayer(player);
   }
 }
 
@@ -335,27 +342,25 @@ function buildChips() {
   });
 }
 
-function setupBaselineToggle() {
-  const button = document.getElementById("baseline-toggle");
-  const panel = document.getElementById("baseline-panel");
+function setupCompareToggle() {
+  const button = document.getElementById("compare-toggle");
+  const panel = document.getElementById("compare-panel");
   button.addEventListener("click", () => {
-    baselinesOpen = !baselinesOpen;
-    panel.hidden = !baselinesOpen;
-    button.setAttribute("aria-expanded", String(baselinesOpen));
+    compareOpen = !compareOpen;
+    panel.hidden = !compareOpen;
+    button.setAttribute("aria-expanded", String(compareOpen));
     for (const player of players) {
-      if (player.system.main) continue;
-      if (baselinesOpen) loadPlayer(player);
+      if (!player.system.compare) continue;
+      if (compareOpen) loadPlayer(player);
       else player.audio.pause();
     }
   });
 }
 
 buildChips();
-const mainGrid = document.getElementById("main-players");
-const baselineGrid = document.getElementById("baseline-players");
-SYSTEMS.forEach(system => buildPlayer(system, system.main ? mainGrid : baselineGrid));
+SYSTEMS.forEach(system => buildPlayer(system, document.getElementById(system.container)));
 lastUsed = players[0];
-setupBaselineToggle();
+setupCompareToggle();
 selectPrompt(0);
 
 function isTyping(target) {
