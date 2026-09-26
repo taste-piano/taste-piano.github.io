@@ -312,9 +312,6 @@ function selectPrompt(index) {
   document.getElementById("imagery").textContent = `“${prompt.imagery}”`;
   const tags = document.getElementById("tags");
   tags.replaceChildren(...TAGS.map(([label, field]) => tagChip(label, prompt[field])));
-  const emotionChip = tags.children[2];
-  emotionChip.classList.add("is-emotion");
-  emotionChip.style.setProperty("--emotion", EMOTION_COLORS[prompt.emotion]);
 
   for (const player of players) {
     player.entry = prompt.players[player.system.key];

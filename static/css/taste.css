@@ -71,20 +71,19 @@ html, body { overflow-x: hidden; }
   align-items: baseline;
   gap: 0.4rem;
   padding: 0.2rem 0.65rem;
-  border: 1px solid #dde1e7;
+  border: 1px solid #c9d5ec;
   border-radius: 999px;
-  background: #ffffff;
+  background: #eef3fb;
   font-size: 0.88rem;
-  color: #2b303a;
+  color: #1f2a44;
 }
 .tag-label {
   font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #7a808b;
+  color: #5670a3;
 }
-.tag-chip.is-emotion { border-color: var(--emotion); box-shadow: inset 3px 0 0 var(--emotion); }
 
 /* players */
 .player-stack {
@@ -166,8 +165,7 @@ html, body { overflow-x: hidden; }
   color: #5f6570;
 }
 
-.compare-note,
-.samples-note {
+.compare-note {
   font-size: 0.9rem;
   color: #5f6570;
 }
@@ -176,7 +174,6 @@ html, body { overflow-x: hidden; }
 .compare-toggle[aria-expanded="true"] .toggle-arrow { transform: rotate(90deg); }
 .compare-note { margin: 1rem 0 0.75rem; }
 .compare-panel { margin-bottom: 0.5rem; }
-.samples-note { margin-top: 0.75rem; font-style: italic; }
 
 /* overview */
 .overview-block {
