@@ -22,16 +22,16 @@
         <div class="column has-text-centered">
           <h1 class="title is-2 publication-title">TASTE: Taxonomy-Aware Symbolic Piano Generation from Textual Description</h1>
           <div class="is-size-5 publication-authors">
-            <span class="author-block">Mingyang Yao et al. &middot; preprint</span>
+            <span class="author-block"></span>
           </div>
           <div class="publication-links">
             <span class="link-block">
-              <button class="button is-normal is-rounded is-dark" disabled>
+              <a class="button is-normal is-rounded is-dark" aria-disabled="true" style="pointer-events:none;opacity:.6">
                 <span class="icon">
                   <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M6 2h8l6 6v14H6zM13 3.5V9h5.5"/></svg>
                 </span>
                 <span>arXiv (coming soon)</span>
-              </button>
+              </a>
             </span>
             <span class="link-block">
               <a href="https://github.com/AndyWeasley2004/TASTE" target="_blank" rel="noopener" class="button is-normal is-rounded is-dark">
@@ -155,12 +155,8 @@ Text-conditioned symbolic music generation lets users steer editable music with 
         </tbody>
       </table>
       <p>Every piece carries key, tempo, emotion, genre, accompaniment, performance, an imagery description, and a timed section plan.</p>
-      <p><strong>TASTE (AR)</strong> is a 0.89B autoregressive decoder with cross-attention over the imagery description, trained Pretrain &rarr; Large public &rarr; Curated &rarr; High-quality; all four stages are released. <strong>TASTE (DiT)</strong> is a 397.6M latent diffusion transformer over a window-VAE codec; the final stage and the codec are released.</p>
-      <p>
-        <a href="https://github.com/AndyWeasley2004/TASTE" target="_blank" rel="noopener">Code</a> &middot;
-        <a href="https://huggingface.co/Itsuki-music/TASTE" target="_blank" rel="noopener">Checkpoints</a> &middot;
-        <a href="https://huggingface.co/datasets/Itsuki-music/TASTE" target="_blank" rel="noopener">Dataset</a>
-      </p>
+      <p><strong>TASTE (AR)</strong> is a 1.235B autoregressive model (a 0.89B pretrained decoder with cross-attention over the imagery description), trained Pretrain &rarr; Large public &rarr; Curated &rarr; High-quality; all four stages are released.<br>
+      <strong>TASTE (DiT)</strong> is a 397.6M latent diffusion transformer over a window-VAE codec; the final stage and the codec are released.</p>
     </div>
   </div>
 </section>
