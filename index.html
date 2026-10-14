@@ -33,26 +33,6 @@
                 <span>arXiv (coming soon)</span>
               </a>
             </span>
-            <span class="link-block">
-              <a href="https://github.com/AndyWeasley2004/TASTE" target="_blank" rel="noopener" class="button is-normal is-rounded is-dark">
-                <span class="icon">
-                  <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                </span>
-                <span>Code</span>
-              </a>
-            </span>
-            <span class="link-block">
-              <a href="https://huggingface.co/Itsuki-music/TASTE" target="_blank" rel="noopener" class="button is-normal is-rounded is-dark">
-                <span class="icon" aria-hidden="true">&#129303;</span>
-                <span>Checkpoints</span>
-              </a>
-            </span>
-            <span class="link-block">
-              <a href="https://huggingface.co/datasets/Itsuki-music/TASTE" target="_blank" rel="noopener" class="button is-normal is-rounded is-dark">
-                <span class="icon" aria-hidden="true">&#129303;</span>
-                <span>Dataset</span>
-              </a>
-            </span>
           </div>
         </div>
       </div>
@@ -96,7 +76,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-Text-conditioned symbolic music generation lets users steer editable music with language, yet two questions remain underexplored: what a conditioning description should contain, and how data for such descriptions should be collected and used for training. We address both questions with TASTE, a taxonomy-aware framework for symbolic music generation with main focus on piano. First, we introduce a taxonomy that separates finite-vocabulary tags (key, tempo, emotion, genre, accompaniment, and performance style), a section plan for temporal form, and a free-form imagery description of the scene or atmosphere a piece evokes. Each part of a description can then be annotated, learned, and evaluated on its own terms. Second, we build a multi-tier annotation pipeline that draws each condition from suitable evidence and propagates annotations from 10K directly paired and 51K curated public performances to 371K weakly labeled MIDI files. Finally, we design a staged training recipe that moves through these tiers from broad weak supervision to direct pairs, and instantiate it in both an autoregressive decoder and a latent diffusion transformer. Both objective and subjective evaluations demonstrate substantial improvement on condition alignment at almost all fields over caption-conditioned baselines while maintaining competitive music quality. We will release the full pipeline, the annotated datasets, and the model checkpoints.
+Text-conditioned symbolic music generation lets users steer editable music with language, yet two questions remain underexplored: what a conditioning description should contain, and how data for such descriptions should be collected and used for training. We address both questions with TASTE, a taxonomy-aware framework for symbolic music generation with main focus on piano. First, we introduce a taxonomy that separates finite-vocabulary tags (key, tempo, emotion, genre, accompaniment, and performance style), a section plan for temporal form, and a free-form imagery description of the scene or atmosphere a piece evokes. Each part of a description can then be annotated, learned, and evaluated on its own terms. Second, we build a multi-tier annotation pipeline that draws each condition from suitable evidence and propagates annotations from 10K directly paired and 51K curated public performances to 371K weakly labeled MIDI files. Finally, we design a staged training recipe that moves through these tiers from broad weak supervision to direct pairs, and instantiate it in both an autoregressive decoder and a latent diffusion transformer. Both objective and subjective evaluations demonstrate substantial improvement on condition alignment at almost all fields over caption-conditioned baselines while maintaining competitive music quality. We will release the annotated datasets.
           </p>
         </div>
       </div>
@@ -143,7 +123,7 @@ Text-conditioned symbolic music generation lets users steer editable music with 
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Release</h2>
     <div class="content">
-      <p>TASTE pairs a taxonomy of music description (six tags, a section plan, and an imagery description) with a three-tier annotation pipeline and two model families. We release the annotated data, the code, and the model checkpoints.</p>
+      <p>TASTE pairs a taxonomy of music description (six tags, a section plan, and an imagery description) with a three-tier annotation pipeline and two model families. We release the annotated data.</p>
       <table class="table is-fullwidth is-narrow">
         <thead>
           <tr><th>Tier</th><th>Pieces</th><th>Source</th><th>Released</th></tr>
@@ -155,8 +135,8 @@ Text-conditioned symbolic music generation lets users steer editable music with 
         </tbody>
       </table>
       <p>Every piece carries key, tempo, emotion, genre, accompaniment, performance, an imagery description, and a timed section plan.</p>
-      <p><strong>TASTE (AR)</strong> is a 1.235B autoregressive model (a 0.89B pretrained decoder with cross-attention over the imagery description), trained Pretrain &rarr; Large public &rarr; Curated &rarr; High-quality; all four stages are released.<br>
-      <strong>TASTE (DiT)</strong> is a 397.6M latent diffusion transformer over a window-VAE codec; the final stage and the codec are released.</p>
+      <p><strong>TASTE (AR)</strong> is a 1.235B autoregressive model (a 0.89B pretrained decoder with cross-attention over the imagery description), trained Pretrain &rarr; Large public &rarr; Curated &rarr; High-quality.<br>
+      <strong>TASTE (DiT)</strong> is a 397.6M latent diffusion transformer over a window-VAE codec.</p>
     </div>
   </div>
 </section>
