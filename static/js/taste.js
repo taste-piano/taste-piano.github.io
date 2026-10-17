@@ -314,7 +314,9 @@ function selectPrompt(index) {
   tags.replaceChildren(...TAGS.map(([label, field]) => tagChip(label, prompt[field])));
 
   for (const player of players) {
-    player.entry = prompt.players[player.system.key];
+    player.entry = prompt.players[player.system.key] || null;
+    player.card.hidden = !player.entry;
+    if (!player.entry) { player.audio.pause(); player.audio.removeAttribute("src"); continue; }
     player.audio.src = player.entry.audio;
     player.midi.href = player.entry.midi;
     player.midi.download = `${prompt.id}_${player.system.key}.mid`;
@@ -322,6 +324,9 @@ function selectPrompt(index) {
     player.onStop();
     if (!player.system.compare || compareOpen) loadPlayer(player);
   }
+  const comparable = players.some(player => player.system.compare && player.entry);
+  document.getElementById("compare-toggle").hidden = !comparable;
+  document.getElementById("compare-panel").hidden = !comparable || !compareOpen;
 }
 
 function buildChips() {
